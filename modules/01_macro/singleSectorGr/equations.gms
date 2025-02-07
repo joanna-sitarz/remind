@@ -27,7 +27,10 @@ qm_budget(ttot,regi)$( ttot.val ge cm_startyear ) ..
   + sum(ppfKap(in), v01_invMacroAdj(ttot,regi,in))
   + sum(in, vm_invInno(ttot,regi,in))
   + sum(in, vm_invImi(ttot,regi,in))
-  + sum(tradePe(enty)$(NOT tradeCap(enty)), pm_costsTradePeFinancial(regi,"Mport",enty) * vm_Mport(ttot,regi,enty))
+
+**JS added vm_Mport_exog
+  + sum(tradePe(enty)$(NOT tradeCap(enty)), pm_costsTradePeFinancial(regi,"Mport",enty) * (vm_Mport(ttot,regi,enty) + vm_Mport_exog(ttot,regi,enty)))
+***
   + sum(tradePe(enty)$(NOT tradeCap(enty)),
       (pm_costsTradePeFinancial(regi,"Xport",enty) * vm_Xport(ttot,regi,enty))
     * ( 1
@@ -41,6 +44,11 @@ qm_budget(ttot,regi)$( ttot.val ge cm_startyear ) ..
       )
     )
   + sum(tradeSe, pm_MPortsPrice(ttot,regi,tradeSe) * vm_Mport(ttot,regi,tradeSe))
+
+**JS
+  + sum(tradePe, vm_Mport_exog(ttot,regi,tradePe) * pm_pvp_exog(ttot,tradePe))
+
+** 
   - sum(tradeSe, pm_XPortsPrice(ttot,regi,tradeSe) * vm_Xport(ttot,regi,tradeSe))
   + sum(tradeCap, vm_costTradeCap(ttot,regi,tradeCap))
   + vm_taxrev(ttot,regi)$(ttot.val ge 2010)

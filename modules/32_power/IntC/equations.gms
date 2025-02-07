@@ -22,6 +22,9 @@ q32_balSe(t,regi,enty2)$(sameas(enty2,"seel"))..
         sum(teCCS2rlf(te,rlf),
             pm_prodCouple(regi,enty,enty3,te,enty2) * vm_co2CCS(t,regi,enty,enty3,te,rlf) ) )
     + vm_Mport(t,regi,enty2)
+
+*JS don't need to add it as in my config there are no seel imports
+*    + vm_Mport_exog(t,regi,enty2)
   =e=
     sum(se2fe(enty2,enty3,te), vm_demSe(t,regi,enty2,enty3,te) )
   + sum(se2se(enty2,enty3,te), vm_demSe(t,regi,enty2,enty3,te) )

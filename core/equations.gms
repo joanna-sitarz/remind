@@ -158,6 +158,9 @@ q_balSe(t,regi,enty2)$( entySe(enty2) AND (NOT (sameas(enty2,"seel"))) )..
     )$( sameas(enty2,"segabio") AND t.val gt 2005 )
   + sum(prodSeOth2te(enty2,te), v_prodSeOth(t,regi,enty2,te) ) !! *** RLDC removal
   + vm_Mport(t,regi,enty2)
+
+* JS: I don't need to add here the exog imported SE as SE doesn't seem to be currently traded. 
+*  + vm_Mport_exog(t,regi,enty2)
   =e=
     sum(se2fe(enty2,enty3,te), vm_demSe(t,regi,enty2,enty3,te))
   + sum(se2se(enty2,enty3,te), vm_demSe(t,regi,enty2,enty3,te))
@@ -394,7 +397,9 @@ qm_fuel2pe(t,regi,peRicardian(enty))..
   vm_prodPe(t,regi,enty)
   =e=
   sum(pe2rlf(enty,rlf2), vm_fuExtr(t,regi,enty,rlf2))
-  - (vm_Xport(t,regi,enty) - (1-pm_costsPEtradeMp(regi,enty)) * vm_Mport(t,regi,enty))$(tradePe(enty))
+
+* JS added exog. imported PE 
+  - (vm_Xport(t,regi,enty) - (1-pm_costsPEtradeMp(regi,enty)) * (vm_Mport_exog(t,regi,enty) + vm_Mport(t,regi,enty)))$(tradePe(enty))
   - sum(pe2rlf(enty2,rlf2), 
       (pm_fuExtrOwnCons(regi, enty, enty2) * vm_fuExtr(t,regi,enty2,rlf2))$(pm_fuExtrOwnCons(regi, enty, enty2) gt 0)
     )
@@ -830,6 +835,8 @@ q_emiAll(t,regi,emi)..
 *' Linking GHG emissions to tradable emission permits.
 ***------------------------------------
 *mh for each region and time step: emissions + permit trade balance < emission cap
+
+*JS don't need to add vm_Mport_exog as in my config "perm" trading is deactivated.
 q_emiCap(t,regi) ..
                 vm_co2eq(t,regi) + vm_Xport(t,regi,"perm") - vm_Mport(t,regi,"perm")
                 =l= vm_perm(t,regi);
